@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/ankesh"
+        android:id="@+id/categoryImage" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/categoryImage"
+        android:text="Ankesh K. added 'Maggi and Bread masala in credit house'"
+        android:textSize="15sp"
+        android:paddingLeft="16dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
+        android:textColor="#000000"
+
+
+        android:id="@+id/activityPerformed" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_below="@id/activityPerformed"
+        android:paddingLeft="66dp"
+        android:paddingRight="20dp"
+        android:text="You owe 40"
+        android:textSize="15sp"
+        android:textColor="#ff1a1a"
+        android:id="@+id/moneyshare" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/moneyshare"
+        android:text="26 feb"
+        android:paddingLeft="66dp"
+        android:paddingTop="3dp"
+
+        android:id="@+id/editText3" />
+</RelativeLayout>

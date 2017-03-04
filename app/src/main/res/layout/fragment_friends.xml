@@ -1,0 +1,35 @@
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.ankesh.instasplit.Friends">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            layout="@layout/summary_user_layout"/>
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/friendsList"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+
+        android:text="+ ADD SOME MORE FRIENDS"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        />
+    </LinearLayout>
+
+</FrameLayout>
+
