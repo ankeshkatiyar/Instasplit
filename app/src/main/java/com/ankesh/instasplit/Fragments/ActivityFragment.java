@@ -25,6 +25,7 @@ public class ActivityFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<ActivitiesListAttributes> listViewAttributes = new ArrayList<>();
+    private static  int count =0;
     public ActivityFragment() {
         // Required empty public constructor
     }
@@ -35,9 +36,12 @@ public class ActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View view =  inflater.inflate(R.layout.fragment_activity, container, false);
-        for(int i =0;i<10;i++) {
+        if(count == 0) {
+            for (int i = 0; i < 10; i++) {
 
-            listViewAttributes.add(new ActivitiesListAttributes(R.drawable.ankesh,"Ankesh",23,"Mila and egg","Credit house ","26 March"));
+                listViewAttributes.add(new ActivitiesListAttributes(R.drawable.ankesh, "Ankesh", 23, "Mila and egg", "Credit house ", "26 March"));
+            }
+            count = 1;
         }
         recyclerView = (RecyclerView)view.findViewById(R.id.activiyRecyclerView);
         adapter = new ActivitiesListAdapter(listViewAttributes);

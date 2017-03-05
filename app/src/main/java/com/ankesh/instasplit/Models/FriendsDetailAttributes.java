@@ -7,29 +7,26 @@ import android.os.Parcelable;
  * Created by I324832 on 3/5/2017.
  */
 
-public class ActivitiesListAttributes implements Parcelable {
+public class FriendsDetailAttributes implements Parcelable {
     private int  displayPic;
-    private String friendName;
     private int money;
-    private String itemsAdded;
+    private String groupType;
     private String groupName;
     private String dateOrTime;
-    public ActivitiesListAttributes(int displayPic , String friendName , int money, String itemsAdded,
+    public FriendsDetailAttributes(int displayPic , String groupType , int money,
                                     String groupName , String dateOrTime)
     {
         this.displayPic = displayPic;
-        this.friendName = friendName;
+        this.groupType = groupType;
         this.money = money;
-        this.itemsAdded = itemsAdded;
         this.groupName = groupName;
         this.dateOrTime = dateOrTime;
     }
 
-    public ActivitiesListAttributes(Parcel in) {
+    public FriendsDetailAttributes(Parcel in) {
         displayPic = in.readInt();
         money = in.readInt();
-        friendName = in.readString();
-        itemsAdded = in.readString();
+       groupType = in.readString();
         groupName = in.readString();
         dateOrTime = in.readString();
     }
@@ -41,12 +38,10 @@ public class ActivitiesListAttributes implements Parcelable {
     public int getMoney() {
         return money;
     }
-    public String getFriendName() {
-        return friendName;
+    public String getGroupType() {
+        return groupType;
     }
-    public String getItemsAdded() {
-        return itemsAdded;
-    }
+
 
     public String getGroupName()
     {
@@ -65,21 +60,20 @@ public class ActivitiesListAttributes implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(displayPic);
         dest.writeInt(money);
-        dest.writeString(friendName);
-        dest.writeString(itemsAdded);
+        dest.writeString(groupType);
         dest.writeString(groupName);
         dest.writeString(dateOrTime);
 
 
     }
-    public static final Parcelable.Creator< ActivitiesListAttributes> CREATOR
-            = new Parcelable.Creator< ActivitiesListAttributes>() {
-        public  ActivitiesListAttributes createFromParcel(Parcel in) {
-            return new  ActivitiesListAttributes(in);
+    public static final Parcelable.Creator< FriendsDetailAttributes> CREATOR
+            = new Parcelable.Creator< FriendsDetailAttributes>() {
+        public  FriendsDetailAttributes createFromParcel(Parcel in) {
+            return new  FriendsDetailAttributes(in);
         }
 
-        public  ActivitiesListAttributes[] newArray(int size) {
-            return new  ActivitiesListAttributes[size];
+        public  FriendsDetailAttributes[] newArray(int size) {
+            return new  FriendsDetailAttributes[size];
         }
     };
 }
