@@ -1,3 +1,4 @@
+/*
 package com.ankesh.instasplit.OldAdapters;
 
 import android.content.Context;
@@ -16,9 +17,11 @@ import com.ankesh.instasplit.R;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by I324832 on 1/29/2017.
- */
+ *//*
+
 
 public class FriendsCustomAdapter extends  ArrayAdapter<FriendsList> {
     private Context context;
@@ -65,3 +68,4 @@ public class FriendsCustomAdapter extends  ArrayAdapter<FriendsList> {
     }
 }
 
+*/
