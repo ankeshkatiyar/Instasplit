@@ -1,9 +1,6 @@
-package com.ankesh.instasplit;
+package com.ankesh.instasplit.OldAdapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ankesh.instasplit.OldListView.FriendsList;
+import com.ankesh.instasplit.R;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class FriendsCustomAdapter extends  ArrayAdapter<FriendsList> {
     private Context context;
     ArrayList<FriendsList> friendsList = null;
     public FriendsCustomAdapter(Context context, ArrayList<FriendsList> friendsList) {
-        super(context,R.layout.friends_list_item , friendsList);
+        super(context , R.layout.friends_list_item , friendsList);
         this.friendsList= friendsList;
         this.context = context;
     }

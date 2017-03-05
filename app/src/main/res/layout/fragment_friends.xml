@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.ankesh.instasplit.Friends">
+    tools:context="com.ankesh.instasplit.Fragments.FriendsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -16,10 +16,16 @@
             layout="@layout/summary_user_layout"/>
 
 
-    <ListView
+   <!-- <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/friendsList"/>
+        android:id="@+id/friendsList"/> -->
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/friendsList">
+
+        </android.support.v7.widget.RecyclerView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.ankesh.instasplit;
+package com.ankesh.instasplit.ExtraFunctions;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

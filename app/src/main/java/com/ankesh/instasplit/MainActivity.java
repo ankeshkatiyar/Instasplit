@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.ankesh.instasplit.Adapters.ViewPagerAdapter;
+import com.ankesh.instasplit.Fragments.ActivityFragment;
+import com.ankesh.instasplit.Fragments.FriendsFragment;
+import com.ankesh.instasplit.Fragments.GroupsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragments(new Friends(),"Friends");
+        viewPagerAdapter.addFragments(new FriendsFragment(),"Friends");
         viewPagerAdapter.addFragments(new GroupsFragment(),"Groups");
         viewPagerAdapter.addFragments(new ActivityFragment(),"Activity");
         viewPager.setAdapter(viewPagerAdapter);
