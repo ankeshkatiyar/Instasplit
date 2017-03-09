@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".Settings" />
         <activity android:name=".FriendsDetailActivity" />
-        <activity android:name=".GroupsDetailActivity"></activity>
+        <activity android:name=".GroupsDetailActivity" />
+        <activity android:name=".AddBillActivity"></activity>
     </application>
 
 </manifest>
