@@ -1,5 +1,9 @@
 package com.ankesh.instasplit.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ankesh.instasplit.FriendsDetailActivity;
 import com.ankesh.instasplit.Models.FriendsListAttributes;
 import com.ankesh.instasplit.R;
 import java.util.ArrayList;
@@ -18,6 +24,7 @@ import java.util.ArrayList;
 
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.RecyclerViewHolder> {
     private ArrayList<FriendsListAttributes> listViewAttributes ;
+    private Context context;
 
     public   FriendsListAdapter(ArrayList<FriendsListAttributes> listViewAttributes)
     {
@@ -25,7 +32,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     }
     @Override
     public FriendsListAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_list_layout , parent ,false);
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.friends_list_layout , parent ,false);
         FriendsListAdapter.RecyclerViewHolder recyclerViewHolder = new FriendsListAdapter.RecyclerViewHolder(view);
         return recyclerViewHolder;
     }
@@ -41,6 +49,14 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         else {
             holder.balanceStatus.setText("You are owed");
         }
+        holder.friendListlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,FriendsDetailActivity.class);
+                intent.putExtra("Key","Key");
+                context.startActivity(intent);
+            }
+        });
 
 
     }
@@ -52,14 +68,17 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     public static  class RecyclerViewHolder extends RecyclerView.ViewHolder{
         private TextView moneyOwed,balanceStatus,friendName;
         private ImageView friendDisplayPic;
+        private ConstraintLayout friendListlayout;
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             moneyOwed = (TextView)itemView.findViewById(R.id.moneyowed);
             friendName = (TextView)itemView.findViewById(R.id.friendname);
             balanceStatus = (TextView)itemView.findViewById(R.id.balancestatus);
             friendDisplayPic = (ImageView)itemView.findViewById(R.id.frienddisplaypic);
+            friendListlayout = (ConstraintLayout)itemView.findViewById(R.id.friendlistlayout);
 
-           ;
+
+
 
 
         }

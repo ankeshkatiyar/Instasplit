@@ -1,5 +1,5 @@
 package com.ankesh.instasplit.Adapters;
-
+//This adapter is responsible for the activities that weill be shown in the activities tab
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 
 public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.RecyclerViewHolder> {
+
     private ArrayList<ActivitiesListAttributes> listViewAttributes;
 
     public ActivitiesListAdapter(ArrayList<ActivitiesListAttributes> listViewAttributes) {
@@ -22,6 +23,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
     @Override
     public ActivitiesListAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Inflating  the view to show in the recycler view of activities tab
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activities_list_layout, parent, false);
         ActivitiesListAdapter.RecyclerViewHolder recyclerViewHolder = new ActivitiesListAdapter.RecyclerViewHolder(view);
         return recyclerViewHolder;

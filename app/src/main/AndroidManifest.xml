@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Settings" />
-        <activity android:name=".FriendsDetailActivity"></activity>
+        <activity android:name=".FriendsDetailActivity" />
+        <activity android:name=".GroupsDetailActivity"></activity>
     </application>
 
 </manifest>

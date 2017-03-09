@@ -1,15 +1,14 @@
 package com.ankesh.instasplit.Fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.ankesh.instasplit.Adapters.FriendsListAdapter;
 import com.ankesh.instasplit.Models.FriendsListAttributes;
 import com.ankesh.instasplit.OldListView.FriendsList;
@@ -66,7 +65,25 @@ public class FriendsFragment extends Fragment {
             }
             count =1 ;
         }
+
         recyclerView = (RecyclerView)view.findViewById(R.id.friendsList);
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
         adapter = new FriendsListAdapter(listViewAttributes);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
