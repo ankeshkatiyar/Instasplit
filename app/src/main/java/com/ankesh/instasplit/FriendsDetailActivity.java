@@ -24,6 +24,7 @@ public class FriendsDetailActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.fd_recyclerview);
         for(int i=0;i<3;i++)
         {
+
             friendsDetailAttributes.add(new FriendsDetailAttributes(
                     R.drawable.ankesh,"Shared",123,"Credit house","26 Feb"));
 

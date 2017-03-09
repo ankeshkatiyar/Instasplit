@@ -9,48 +9,56 @@ import android.os.Parcelable;
 
 public class GroupsDetailAttributes implements Parcelable {
     private int  displayPic;
-    private int money;
-    private String groupType;
-    private String groupName;
-    private String dateOrTime;
-    public GroupsDetailAttributes(int displayPic , String groupType , int money,
-                                   String groupName , String dateOrTime)
+    private String personPaid;
+    private int moneyPaid;
+    private String description;
+    private int yourShare;
+    private String date;
+    public GroupsDetailAttributes(int displayPic , String personPaid ,
+                               int moneyPaid,String description , int yourShare,String date)
     {
         this.displayPic = displayPic;
-        this.groupType = groupType;
-        this.money = money;
-        this.groupName = groupName;
-        this.dateOrTime = dateOrTime;
+        this.personPaid = personPaid;
+        this.moneyPaid = moneyPaid;
+        this.description = description;
+        this.yourShare = yourShare;
+        this.date = date;
     }
 
     public GroupsDetailAttributes(Parcel in) {
         displayPic = in.readInt();
-        money = in.readInt();
-        groupType = in.readString();
-        groupName = in.readString();
-        dateOrTime = in.readString();
+        moneyPaid = in.readInt();
+        personPaid = in.readString();
+        description = in.readString();
+        yourShare = in.readInt();
+        date = in.readString();
     }
 
     public int getDisplayPic() {
         return displayPic;
     }
 
-    public int getMoney() {
-        return money;
-    }
-    public String getGroupType() {
-        return groupType;
+
+    public String getPersonPaid() {
+        return personPaid;
     }
 
+    public int getMoneyPaid() {
+        return moneyPaid;
+    }
 
-    public String getGroupName()
-    {
-        return groupName;
+    public String getDescription() {
+        return description;
     }
-    public String getDateOrTime()
-    {
-        return dateOrTime;
+
+    public int getYourShare() {
+        return yourShare;
     }
+
+    public String getDate() {
+        return date;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,10 +67,11 @@ public class GroupsDetailAttributes implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(displayPic);
-        dest.writeInt(money);
-        dest.writeString(groupType);
-        dest.writeString(groupName);
-        dest.writeString(dateOrTime);
+        dest.writeInt(moneyPaid);
+        dest.writeString(personPaid);
+        dest.writeString(description);
+        dest.writeInt(yourShare);
+
 
 
     }

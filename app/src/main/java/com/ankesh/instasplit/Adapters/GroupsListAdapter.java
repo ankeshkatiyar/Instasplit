@@ -1,5 +1,8 @@
 package com.ankesh.instasplit.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ankesh.instasplit.FriendsDetailActivity;
+import com.ankesh.instasplit.GroupsDetailActivity;
 import com.ankesh.instasplit.Models.GroupListAttributes;
 import com.ankesh.instasplit.R;
 import java.util.ArrayList;
@@ -18,14 +23,17 @@ import java.util.ArrayList;
 
 
 public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.RecyclerViewHolder> {
-    ArrayList<GroupListAttributes> listViewAttributes ;
+   private  ArrayList<GroupListAttributes> listViewAttributes ;
+   private Context context;
+
     public   GroupsListAdapter(ArrayList<GroupListAttributes> listViewAttributes)
     {
         this.listViewAttributes = listViewAttributes;
     }
     @Override
     public GroupsListAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_list_layout , parent ,false);
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.group_list_layout , parent ,false);
         GroupsListAdapter.RecyclerViewHolder recyclerViewHolder = new GroupsListAdapter.RecyclerViewHolder(view);
         return recyclerViewHolder;
     }
@@ -42,7 +50,14 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Re
         else {
             holder.groupBalanceStatus.setText("You are owed");
         }
-       // holder.personMoney.setText("you owe me Rs 20");
+        holder.groupListLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,GroupsDetailActivity.class);
+                intent.putExtra("Key","Key");
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -53,12 +68,15 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Re
     public static  class RecyclerViewHolder extends RecyclerView.ViewHolder{
         private TextView groupMoneyOwed,groupBalanceStatus,groupName,personMoney;
         private ImageView groupDisplayPic;
+        private ConstraintLayout groupListLayout;
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             groupMoneyOwed = (TextView)itemView.findViewById(R.id.groupmoneyowed);
             groupName = (TextView)itemView.findViewById(R.id.groupname);
             groupBalanceStatus = (TextView)itemView.findViewById(R.id.groupbalancestatus);
             groupDisplayPic = (ImageView)itemView.findViewById(R.id.groupdisplaypic);
+            groupListLayout = (ConstraintLayout)itemView.findViewById(R.id.group_constraintlayout);
+
            /* ConstraintLayout constraintLayout = (ConstraintLayout)itemView.findViewById(R.id.group_constraint);
             ConstraintSet set = new ConstraintSet();
 
