@@ -1,9 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ankesh.instasplit.AddBillActivity">
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/bill_text_view_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="With you and : "
+        android:padding="16dp"
+        android:textSize = "15sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/bill_partners"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@android:color/transparent"
+        android:text="MultiAutoCompleteTextView"
+        android:layout_alignBaseline="@+id/bill_text_view_1"
+        android:layout_alignBottom="@+id/bill_text_view_1"
+        android:layout_toEndOf="@+id/bill_text_view_1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:layout_alignBottom="@+id/bill_text_view_1"/>
+
+    <ImageView
+        android:id="@+id/biil_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/bill_partners"
+        android:layout_alignEnd="@+id/bill_text_view_1"
+        android:layout_marginEnd="28dp" />
+
+    <EditText
+        android:id="@+id/bill_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter a description"
+        android:layout_alignTop="@+id/biil_image"
+        android:layout_alignStart="@+id/bill_partners"
+        android:layout_alignEnd="@+id/bill_amount" />
+
+    <AutoCompleteTextView
+        android:id="@+id/bill_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="INR"
+        android:layout_below="@+id/biil_image"
+        android:layout_alignStart="@+id/bill_description"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/bill_text_view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:text="Paid by"
+        android:textSize="15sp"
+        android:layout_below="@+id/bill_currency"
+        android:layout_toStartOf="@+id/bill_paid_by"
+        android:layout_marginEnd="8dp"/>
+
+    <Button
+        android:id="@+id/bill_paid_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YOU"
+        android:layout_alignBaseline="@+id/bill_text_view_2"
+        android:layout_alignBottom="@+id/bill_text_view_2"
+        android:layout_alignStart="@+id/bill_currency" />
+
+    <Button
+        android:id="@+id/bill_split"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EQUALLY"
+        android:layout_alignBaseline="@+id/bill_paid_by"
+        android:layout_alignBottom="@+id/bill_paid_by"
+        android:layout_alignEnd="@+id/bill_partners" />
+
+    <TextView
+        android:id="@+id/bill_text_view_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="and split"
+        android:textSize="15sp"
+        android:layout_marginStart="12dp"
+        android:layout_alignBottom="@+id/bill_text_view_2"
+        android:layout_toEndOf="@+id/bill_paid_by" />
+
+    <EditText
+        android:id="@+id/bill_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="0.00"
+        android:layout_alignBaseline="@+id/bill_currency"
+        android:layout_alignBottom="@+id/bill_currency"
+        android:layout_alignEnd="@+id/bill_split" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:id="@+id/bottom_horiz_line"
+        android:layout_alignTop="@+id/bill_date"/>
+
+
+
+    <EditText
+        android:id="@+id/bill_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/bill_paid_by"
+        android:ems="10"
+        android:inputType="date"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="23/04/2017" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:id="@+id/bottom_vert_line_1"
+        android:background="@android:color/black"
+        android:layout_alignRight="@+id/bill_date"
+        android:layout_alignTop="@+id/bottom_horiz_line"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/bill_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/bill_date"
+        android:text="Credit House"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"/>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:id="@+id/bill_vert_line_2"
+        android:background="@android:color/black"
+        android:layout_toRightOf="@+id/bill_group"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/bottom_horiz_line"/>
+    />
+
+    <ImageView
+        android:id="@+id/bill_attach_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/bill_vert_line_2"
+        android:layout_alignTop="@+id/bill_group"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/black"
+        android:layout_toRightOf="@+id/bill_attach_photo"
+        android:layout_alignTop="@+id/bottom_horiz_line"/>
+
+    <ImageView
+        android:id="@+id/bill_attach_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_alignTop="@+id/bill_attach_photo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/bill_split"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+
+</RelativeLayout>
