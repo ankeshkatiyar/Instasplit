@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.ankesh.instasplit.Fragments.GroupsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -19,8 +19,24 @@
             android:id="@+id/activityList"/>-->
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/groupList"></android.support.v7.widget.RecyclerView>
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:id="@+id/groupList">
+
+        </android.support.v7.widget.RecyclerView>
+        <Button
+            android:layout_width="wrap_content"
+            android:paddingLeft="80dp"
+            android:paddingRight="80dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.09"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:text="+ ADD SOME MORE GROUPS"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
+            />
+
     </LinearLayout>
 
 </FrameLayout>

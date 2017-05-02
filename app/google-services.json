@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "998728590649",
+    "firebase_url": "https://instasplit-77aa0.firebaseio.com",
+    "project_id": "instasplit-77aa0",
+    "storage_bucket": "instasplit-77aa0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998728590649:android:caaa530577d0f652",
+        "android_client_info": {
+          "package_name": "com.ankesh.instasplit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998728590649-a4c77vkvm18q4l15hem6hvkdmfmoevdu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ankesh.instasplit",
+            "certificate_hash": "77bd9b4567d31083b108ac35c11cb68c6bf1526b"
+          }
+        },
+        {
+          "client_id": "998728590649-ecldakbfs57fkhlrtprmqev8rt0ct0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnGv3I0g1YOBa2VMHm9pcrA9G3piHHGW0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998728590649-ecldakbfs57fkhlrtprmqev8rt0ct0gl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
