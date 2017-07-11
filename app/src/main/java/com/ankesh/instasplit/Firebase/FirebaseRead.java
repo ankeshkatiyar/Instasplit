@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ankesh.instasplit.AddFriendActivity;
+import com.ankesh.instasplit.Models.FriendsListAttributes;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -105,5 +108,13 @@ public class FirebaseRead {
 
 
     }
+    public Map<String,Object> getValues(DatabaseReference databaseReference) throws InterruptedException {
+        Log.i("Hey_PAGAL","I am here2");
+
+
+        return valuesCollected;
+    }
+
+
 }
 

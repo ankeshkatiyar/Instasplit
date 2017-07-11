@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/image_background"
+    >
 
     <EditText
         android:id="@+id/email_view"
@@ -15,8 +17,8 @@
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="20dp"
-        android:textColor="#ffea00"
-        android:textColorHint="#ffea00" />
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff" />
 
     <EditText
         android:id="@+id/password_view"
@@ -30,7 +32,7 @@
         android:inputType="textPassword"
         android:padding="20dp"
         android:textColor="#ffea00"
-        android:textColorHint="#ffea00" />
+        android:textColorHint="#ffffff" />
 
 
     <Button
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:layout_marginTop="30dp"
+        android:textColor="#ffffff"
 
         android:text="Login"
 
@@ -56,9 +59,11 @@
         android:layout_marginTop="30dp"
         android:layout_alignStart="@+id/email_view"
         android:layout_alignEnd="@+id/email_view"
-        android:text="Register" />
+        android:text="Register"
+        android:textColor="#ffffff"/>
 
-    <ImageView
+    <TextView
+
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +71,10 @@
         android:layout_alignStart="@+id/email_view"
         android:layout_marginStart="71dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@mipmap/logo1" />
+        android:text="InstaSplit"
+        android:textSize="50dp"
+        android:textColor="#ffffff"
+         />
 
 
 </RelativeLayout>

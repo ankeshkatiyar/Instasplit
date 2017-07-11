@@ -41,7 +41,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     @Override
     public void onBindViewHolder(FriendsListAdapter.RecyclerViewHolder holder, int position) {
         holder.friendName.setText(listViewAttributes.get(position).getFriendName());
-        holder.moneyOwed.setText(Integer.toString(listViewAttributes.get(position).getMoney()));
+        holder.moneyOwed.setText(Long.toString(listViewAttributes.get(position).getMoney()));
         holder.friendDisplayPic.setImageResource(listViewAttributes.get(position).getDisplayPic());
         if(listViewAttributes.get(position).getMoney()<0) {
             holder.balanceStatus.setText("You owe");

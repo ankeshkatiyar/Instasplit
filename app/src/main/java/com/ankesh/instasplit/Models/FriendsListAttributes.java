@@ -10,8 +10,8 @@ import android.os.Parcelable;
 public class FriendsListAttributes implements Parcelable {
     private int  displayPic;
     private String friendName;
-    private int money;
-    public FriendsListAttributes(int displayPic , String friendName , int money)
+    private long money;
+    public FriendsListAttributes(int displayPic , String friendName , long money)
     {
         this.displayPic = displayPic;
         this.friendName = friendName;
@@ -28,7 +28,7 @@ public class FriendsListAttributes implements Parcelable {
         return displayPic;
     }
 
-    public int getMoney() {
+    public long getMoney() {
         return money;
     }
     public String getFriendName() {
@@ -45,7 +45,7 @@ public class FriendsListAttributes implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(displayPic);
-        dest.writeInt(money);
+        dest.writeLong(money);
         dest.writeString(friendName);
 
 

@@ -19,12 +19,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".Settings" />
         <activity android:name=".FriendsDetailActivity" />
         <activity android:name=".GroupsDetailActivity" />
         <activity android:name=".AddBillActivity" />
-        <activity android:name=".AddFriendActivity"></activity>
+        <activity android:name=".AddFriendActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
@@ -33,7 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>
