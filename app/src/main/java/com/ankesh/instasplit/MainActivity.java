@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -46,10 +47,13 @@ public class MainActivity extends AppCompatActivity {
         checkContactsPermission();
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(new FriendsFragment(), "Friends");
         viewPagerAdapter.addFragments(new GroupsFragment(), "Groups");
         viewPagerAdapter.addFragments(new ActivityFragment(), "Activity");
+
+
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
 

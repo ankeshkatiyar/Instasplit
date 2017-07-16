@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.ankesh.instasplit.Fragments.FriendsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
+        android:id="@+id/friendFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -22,6 +24,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/friendsList"/> -->
         <android.support.v7.widget.RecyclerView
+
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"

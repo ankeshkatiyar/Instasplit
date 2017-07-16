@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.ankesh.instasplit.Adapters.FriendsListAdapter;
 import com.ankesh.instasplit.Database.InstaSplitContract;
 import com.ankesh.instasplit.Database.InstaSplitDBUpdate;
@@ -36,9 +37,10 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
     private RecyclerView.LayoutManager layoutManager;
     ProgressDialog progressDialog;
     private Map<String, Object> friendsData;
-    public FriendAttributes delegate = null;
     private DatabaseReference myFriendsReference;
     private View actualView;
+    private ContentValues contentValues;
+    private ContentValues friendPersonalValues;
 
     public FirebaseFriendDataRetrieval(Context context) {
         this.context = context;
@@ -59,62 +61,48 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
     @Override
     protected ArrayList<FriendsListAttributes> doInBackground(View... view) {
 
-        String[] column_name = new String[1];
-        column_name[0]="friend_id";
-        ArrayList<ContentValues> values  = new ArrayList<ContentValues>();
 
-        InstaSplitDBUpdate instaSplitDBUpdate = new InstaSplitDBUpdate(context);
-        String query = "SELECT displaypic ,firstname, lastname, moneyowes FROM Users INNER JOIN Friends ON Users.id = Friends.friend_id WHERE  Friends.id = " + FireBaseConnectivity.uid;
-        values = instaSplitDBUpdate.dbExec(query);
-        int size = values.size();
-        for(int i =0 ;i < size ;i++)
-        {
-            listViewAttributes.add(new FriendsListAttributes(Integer.parseInt(values.get(i).get("displaypic").toString())
-                    ,values.get(i).get("firstname").toString(),Long.parseLong(values.get(i).get("moneyowes").toString())));
-        }
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        myFriendsReference = databaseReference.child("Users/" + FireBaseConnectivity.uid + "/MyFriends");
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        try {
 
-        if(listViewAttributes.isEmpty()) {
+            synchronized (this) {
 
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-            myFriendsReference = databaseReference.child("Users/" + FireBaseConnectivity.uid + "/my_Friends");
+                myFriendsReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        friendsData = (Map<String, Object>) dataSnapshot.getValue();
+                        //Log.i("Firebase", friendsData.toString());
+                        if (friendsData != null) {
 
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-            try {
-
-                synchronized (this) {
-
-                    myFriendsReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            friendsData = (Map<String, Object>) dataSnapshot.getValue();
-                            if (friendsData != null) {
-
-                                addFriendsToUI(friendsData);
-                            } else {
-                                Toast.makeText(context, "No Friends", Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
-
-                            }
+                            addFriendsToUI(friendsData);
+                        } else {
+                            Toast.makeText(context, "No Friends", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
 
                         }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    }
 
-                        }
-                    });
-                }
-            } catch (Exception npe) {
-                Toast.makeText(context, "No Friends Added", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
+                    }
+                });
             }
+        } catch (Exception npe) {
+            Toast.makeText(context, "No Friends Added", Toast.LENGTH_SHORT).show();
 
-            while (listViewAttributes.size() == 0) {
-                Log.i("Indian", "Hello");
-            }
-            actualView = view[0];
         }
+
+        while (listViewAttributes.size() == 0) {
+            Log.i("Indian", "Hello");
+        }
+        actualView = view[0];
+
+
         return listViewAttributes;
 
     }
@@ -129,16 +117,13 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
     protected void onPostExecute(ArrayList<FriendsListAttributes> friendsListAttributes) {
 
 
-
         adapter = new FriendsListAdapter(listViewAttributes);
-        recyclerView = (RecyclerView)actualView.findViewById(R.id.friendsList);
+        recyclerView = (RecyclerView) actualView.findViewById(R.id.friendsList);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         progressDialog.dismiss();
-
-
 
 
     }
@@ -147,10 +132,10 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
         try {
 
 
-            for (Map.Entry<String, Object> singleFriend : valuesCollected.entrySet()) {
+            for (final Map.Entry<String, Object> singleFriend : valuesCollected.entrySet()) {
 
                 final Map newFriend = (Map) singleFriend.getValue();
-                final long moneyOwed  =(Long)newFriend.get("owes");
+                final long moneyOwed = (Long) newFriend.get("owes");
 
                 friendName = databaseReference.child("Users/" + singleFriend.getKey());
 
@@ -158,8 +143,28 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         tempFriend = (Map<String, Object>) dataSnapshot.getValue();
-                        listViewAttributes.add(new FriendsListAttributes(R.drawable.ankesh, tempFriend.get("first_name").toString(),moneyOwed));
-                        Log.i("Indian",Integer.toString(listViewAttributes.size()));
+                        listViewAttributes.add(new FriendsListAttributes(R.drawable.ankesh, tempFriend.get("first_name").toString(), moneyOwed));
+                        contentValues = new ContentValues();
+                        Log.i("Firebase","Temp Friend" + tempFriend.toString());
+                        friendPersonalValues = new ContentValues();
+                        contentValues.put(InstaSplitContract.Friends.COL_NAME_1, FireBaseConnectivity.uid);
+                        contentValues.put(InstaSplitContract.Friends.COL_NAME_2, singleFriend.getKey());
+                        contentValues.put(InstaSplitContract.Friends.COL_NAME_3, "20.03.2017");
+                        contentValues.put(InstaSplitContract.Friends.COL_NAME_4, Long.toString(moneyOwed));
+                        friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_1, singleFriend.getKey());
+                        friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_2, tempFriend.get("first_name").toString());
+                        friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_3, tempFriend.get("last_name").toString());
+                        //friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_4, tempFriend.get("email").toString());
+                        friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_5, tempFriend.get("mobile_number").toString());
+                        friendPersonalValues.put(InstaSplitContract.Users.COL_NAME_6, 1);
+                        InstaSplitDBUpdate instaSplitDBUpdate = new InstaSplitDBUpdate(context);
+                        if (instaSplitDBUpdate.dbInsert("Friends", contentValues)) {
+                            Log.i("Firebase", "Friend and User Inserted in the database" + contentValues.toString());
+                        }
+                        if (instaSplitDBUpdate.dbInsert("Users", friendPersonalValues)) {
+                            Log.i("Firebase", "Friend Personal data Inserted in the database" + friendPersonalValues.toString());
+                        }
+                        Log.i("Indian", Integer.toString(listViewAttributes.size()));
 
                     }
 

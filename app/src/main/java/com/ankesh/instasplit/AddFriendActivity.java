@@ -1,9 +1,18 @@
 package com.ankesh.instasplit;
 
+import android.app.Activity;
+
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
@@ -14,8 +23,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ankesh.instasplit.Database.InstaSplitContract;
+import com.ankesh.instasplit.Database.InstaSplitDBUpdate;
 import com.ankesh.instasplit.Firebase.FirebaseRead;
+import com.ankesh.instasplit.Fragments.FriendsFragment;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class AddFriendActivity extends AppCompatActivity {
+public class AddFriendActivity extends FragmentActivity {
     private AutoCompleteTextView friends;
     private Firebase rootReference;
     private FirebaseAuth firebaseAuth;
@@ -39,13 +52,16 @@ public class AddFriendActivity extends AppCompatActivity {
     private boolean isFriendAdded = false;
     private DatabaseReference databaseReference;
     private DataSnapshot dataSnapshotMain = null;
-
-
+    private Context context;
+    private Map<String, Object> tempFriend;
+    ContentValues friendsTableData = new ContentValues();
+    ContentValues userTableData = new ContentValues();
+    String innerUId ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
-
+        context = getApplicationContext();
         //getting the database reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -109,7 +125,15 @@ public class AddFriendActivity extends AppCompatActivity {
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addFriends(phoneorEmail);
+                if(addFriends(phoneorEmail)) {
+                    //FriendsFragment friendsFragment = new FriendsFragment();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.friendFragment,friendsFragment).commit();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
@@ -156,87 +180,102 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     //adding the friend
-    public void addFriends(String value) {
+    public boolean addFriends(String value) {
+        try {
 
 
-        if (value.contains("@")) {
+            if (value.contains("@")) {
 
-            DatabaseReference emailReference = databaseReference.child("UsersIdEmail");
+                DatabaseReference emailReference = databaseReference.child("UsersIdEmail");
 
-            emailReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                emailReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                    if (checkIfFriendExists(dataSnapshot)) {
-                        if (!checkIfFriendAlreadyAdded()) {
-                            uid = firebaseAuth.getCurrentUser().getUid();
-                            //check if we are not adding ourself
-                            if (friendUId == uid) {
-                                Toast.makeText(AddFriendActivity.this, "You cannot add yourself", Toast.LENGTH_LONG).show();
+                        if (checkIfFriendExists(dataSnapshot)) {
+                            if (!checkIfFriendAlreadyAdded()) {
+                                uid = firebaseAuth.getCurrentUser().getUid();
+                                //check if we are not adding ourself
+                                if (friendUId == uid) {
+                                    Toast.makeText(AddFriendActivity.this, "You cannot add yourself", Toast.LENGTH_LONG).show();
+                                } else {
+                                    //adding friend to the current user account
+                                    addFriendsToFirebaseDatabase(phoneorEmail, "mobile_number", friendUId, uid);
+                                    //adding the current user to the new friend
+                                    addFriendsToFirebaseDatabase(phoneorEmail, "mobile_number", uid, friendUId);
+
+                                }
                             } else {
-                                addFriendsToFirebaseDatabase(phoneorEmail, "email", friendUId);
+                                Toast.makeText(AddFriendActivity.this, "Friend already added", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(AddFriendActivity.this, "Friend already added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddFriendActivity.this, "Friend Not registered", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        Toast.makeText(AddFriendActivity.this, "Friend Not registered", Toast.LENGTH_LONG).show();
+
                     }
 
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                    }
+                });
 
 
-        } else {
-            DatabaseReference mobileReference = databaseReference.child("UsersIdMobile");
+            } else {
+                DatabaseReference mobileReference = databaseReference.child("UsersIdMobile");
 
-            mobileReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                mobileReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                    if (checkIfFriendExists(dataSnapshot)) {
-                        if (!checkIfFriendAlreadyAdded()) {
+                        if (checkIfFriendExists(dataSnapshot)) {
+                            if (!checkIfFriendAlreadyAdded()) {
 
-                            if (friendUId == uid) {
-                                Toast.makeText(AddFriendActivity.this, "You cannot add yourself", Toast.LENGTH_LONG).show();
+                                if (friendUId == uid) {
+                                    Toast.makeText(AddFriendActivity.this, "You cannot add yourself", Toast.LENGTH_LONG).show();
+                                } else {
+                                    //adding friend to the current user account
+                                    addFriendsToFirebaseDatabase(phoneorEmail, "mobile_number", friendUId, uid);
+                                    //adding the current user to the new friend
+                                    addFriendsToFirebaseDatabase(phoneorEmail, "mobile_number", uid, friendUId);
+                                    //adding friend to local database
+                                    addFriendToLocalDatabase(uid, friendUId, DateFormat.getDateTimeInstance().format(new Date()), 00);
+                                }
                             } else {
-                                addFriendsToFirebaseDatabase(phoneorEmail, "mobile_number", friendUId);
+                                Toast.makeText(AddFriendActivity.this, "Friend already added", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(AddFriendActivity.this, "Friend already added", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddFriendActivity.this, "Friend Not registered", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        Toast.makeText(AddFriendActivity.this, "Friend Not registered", Toast.LENGTH_LONG).show();
+
                     }
 
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
 
-                }
-            });
-
-
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
 
-    public void addFriendsToFirebaseDatabase(String phoneOrEmail, String value, String friendUId) {
+    public void addFriendsToFirebaseDatabase(String phoneOrEmail, String value, String friendUId, String UserId) {
 
-        rootReference = new Firebase("https://instasplit-77aa0.firebaseio.com/Users/"+ uid +"/MyFriends/" + friendUId);
+        rootReference = new Firebase("https://instasplit-77aa0.firebaseio.com/Users/" + UserId + "/MyFriends/" + friendUId);
         Firebase childRef = rootReference.child("activity_friend");
         childRef.child("Activity_ID").setValue("act123");
         rootReference.child("date_added").setValue(DateFormat.getDateTimeInstance().format(new Date()));
-        rootReference.child("owes").setValue("0");
+        rootReference.child("owes").setValue(00);
+
         Toast.makeText(AddFriendActivity.this, "Friend Added", Toast.LENGTH_LONG).show();
+
 
     }
 
@@ -254,27 +293,105 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     public boolean checkIfFriendAlreadyAdded() {
+        try {
 
-        uid = firebaseAuth.getCurrentUser().getUid();
-        DatabaseReference childRef = databaseReference.child("Users").child(uid).child("MyFriends");
-        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Object> Users = (Map<String, Object>) dataSnapshot.getValue();
-                if (Users.containsKey(friendUId)) {
-                    isFriendAdded = true;
+            uid = firebaseAuth.getCurrentUser().getUid();
+            DatabaseReference childRef = databaseReference.child("Users").child(uid).child("MyFriends");
+            childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Map<String, Object> Users = (Map<String, Object>) dataSnapshot.getValue();
+                    if(Users!=null) {
+                        if (Users.containsKey(friendUId)) {
+                            isFriendAdded = true;
+
+                        }
+                    }
 
                 }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            return isFriendAdded;
+        }catch (NullPointerException npe)
+        {
 
-            }
-        });
-        return isFriendAdded;
+            Log.i("Firebase","Null pointer exception Add_friend_activity");
+            return false;
+        }
 
+
+    }
+
+    public boolean addFriendToLocalDatabase(String uid, String friend_id, String date, long owes) {
+
+        try {
+
+            innerUId = friend_id;
+
+            friendsTableData.put(InstaSplitContract.Friends.COL_NAME_1, uid);
+            friendsTableData.put(InstaSplitContract.Friends.COL_NAME_2, friend_id);
+            friendsTableData.put(InstaSplitContract.Friends.COL_NAME_3, date);
+            friendsTableData.put(InstaSplitContract.Friends.COL_NAME_4, Long.toString(owes));
+
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference localDatabaseRefernce =  databaseReference.child("Users/"+ friend_id);
+            Log.i("Firebase",friend_id);
+            Log.i("Firebase",friend_id);
+//            rootReference.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+//                @Override
+//                public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                    Log.i("Firebase","I am inside");
+//                    tempFriend = (Map<String, Object>) dataSnapshot.getValue();
+//                }
+//
+//                @Override
+//                public void onCancelled(FirebaseError firebaseError) {
+//
+//                }
+//            });
+            localDatabaseRefernce.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.i("Firebase","I am inside");
+                    tempFriend = (Map<String, Object>) dataSnapshot.getValue();
+                    if(!tempFriend.equals(null)) {
+                        Log.i("Firebase", "Temp Friend is" + tempFriend.toString());
+                        userTableData.put(InstaSplitContract.Users.COL_NAME_1, innerUId);
+                        userTableData.put(InstaSplitContract.Users.COL_NAME_2, tempFriend.get("first_name").toString());
+                        userTableData.put(InstaSplitContract.Users.COL_NAME_3, tempFriend.get("last_name").toString());
+                        // userTableData.put(InstaSplitContract.Users.COL_NAME_4, tempFriend.get("email").toString());
+                        userTableData.put(InstaSplitContract.Users.COL_NAME_5, tempFriend.get("mobile_number").toString());
+                        userTableData.put(InstaSplitContract.Users.COL_NAME_6, 1);
+
+                        InstaSplitDBUpdate instaSplitDBUpdate = new InstaSplitDBUpdate(context);
+                        if (instaSplitDBUpdate.dbInsert("Friends", friendsTableData)) {
+                            Log.i("Firebase", "Friend and User Inserted in the database" + friendsTableData.toString());
+                        }
+                        if (instaSplitDBUpdate.dbInsert("Users", userTableData)) {
+                            Log.i("Firebase", "Friend Personal data Inserted in the database" + userTableData.toString());
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            return true;
+        } catch (NullPointerException npe) {
+            Log.i("Firebase","Null Pointer Exception");
+            npe.printStackTrace();
+            return false;
+        }
     }
 
 

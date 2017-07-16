@@ -28,13 +28,13 @@ public class InstaSplitDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Users.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Activities.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Friends.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.ActivitiesPartners.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.ActivitiesPartnersPaid.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Groups.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Groups.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Users.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Activities.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Friends.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.ActivitiesPartners.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.ActivitiesPartnersPaid.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Groups.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " +  InstaSplitContract.Groups.TABLE_NAME);
 
     }
 }

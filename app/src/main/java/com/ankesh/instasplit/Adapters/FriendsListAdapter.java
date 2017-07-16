@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ankesh.instasplit.FriendsDetailActivity;
 import com.ankesh.instasplit.Models.FriendsListAttributes;
@@ -42,7 +43,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     public void onBindViewHolder(FriendsListAdapter.RecyclerViewHolder holder, int position) {
         holder.friendName.setText(listViewAttributes.get(position).getFriendName());
         holder.moneyOwed.setText(Long.toString(listViewAttributes.get(position).getMoney()));
-        holder.friendDisplayPic.setImageResource(listViewAttributes.get(position).getDisplayPic());
+       // holder.friendDisplayPic.setImageResource(listViewAttributes.get(position).getDisplayPic());
         if(listViewAttributes.get(position).getMoney()<0) {
             holder.balanceStatus.setText("You owe");
         }
@@ -55,6 +56,14 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
                 Intent intent = new Intent(context,FriendsDetailActivity.class);
                 intent.putExtra("Key","Key");
                 context.startActivity(intent);
+            }
+        });
+        //This long click will be used to delete the friend from the system and as well as the local database.
+        holder.friendListlayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(context, "Long CLicked", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
