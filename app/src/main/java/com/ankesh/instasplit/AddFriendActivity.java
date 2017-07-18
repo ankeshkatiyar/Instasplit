@@ -27,6 +27,7 @@ import com.ankesh.instasplit.Database.InstaSplitContract;
 import com.ankesh.instasplit.Database.InstaSplitDBUpdate;
 import com.ankesh.instasplit.Firebase.FirebaseRead;
 import com.ankesh.instasplit.Fragments.FriendsFragment;
+import com.ankesh.instasplit.HelperClasses.FriendHelperClass;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class AddFriendActivity extends FragmentActivity {
+public class AddFriendActivity extends AppCompatActivity {
     private AutoCompleteTextView friends;
     private Firebase rootReference;
     private FirebaseAuth firebaseAuth;
@@ -53,6 +54,7 @@ public class AddFriendActivity extends FragmentActivity {
     private DatabaseReference databaseReference;
     private DataSnapshot dataSnapshotMain = null;
     private Context context;
+    private Context activity;
     private Map<String, Object> tempFriend;
     ContentValues friendsTableData = new ContentValues();
     ContentValues userTableData = new ContentValues();
@@ -61,6 +63,7 @@ public class AddFriendActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
+
         context = getApplicationContext();
         //getting the database reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -120,12 +123,15 @@ public class AddFriendActivity extends FragmentActivity {
 
             }
         });
+        activity = this;
 
 //Actual addition of the friend starts here
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(addFriends(phoneorEmail)) {
+              boolean friendAdded =   new FriendHelperClass(context).addFriends(phoneorEmail);
+
+                if(friendAdded) {
                     //FriendsFragment friendsFragment = new FriendsFragment();
                     //getSupportFragmentManager().beginTransaction().replace(R.id.friendFragment,friendsFragment).commit();
                     Intent intent = new Intent(context, MainActivity.class);
@@ -180,7 +186,7 @@ public class AddFriendActivity extends FragmentActivity {
     }
 
     //adding the friend
-    public boolean addFriends(String value) {
+    /*public boolean addFriends(String value) {
         try {
 
 
@@ -392,7 +398,7 @@ public class AddFriendActivity extends FragmentActivity {
             npe.printStackTrace();
             return false;
         }
-    }
+    }*/
 
 
 }

@@ -22,6 +22,7 @@ import com.ankesh.instasplit.AddFriendActivity;
 import com.ankesh.instasplit.Database.InstaSplitDBUpdate;
 import com.ankesh.instasplit.FireBaseConnectivity;
 import com.ankesh.instasplit.Firebase.FirebaseFriendDataRetrieval;
+import com.ankesh.instasplit.HelperClasses.FriendHelperClass;
 import com.ankesh.instasplit.MainActivity;
 import com.ankesh.instasplit.Models.FriendsListAttributes;
 import com.ankesh.instasplit.R;
@@ -53,11 +54,11 @@ public class FriendsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_friends, container, false);
 
 
-        addFriends = (Button)view.findViewById(R.id.add_friends);
+        addFriends = (Button) view.findViewById(R.id.add_friends);
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),AddFriendActivity.class);
+                Intent intent = new Intent(getContext(), AddFriendActivity.class);
                 startActivity(intent);
                 getActivity().finish();
                 try {
@@ -73,21 +74,16 @@ public class FriendsFragment extends Fragment {
         try {
             listViewAttributes.clear();
 
-            getFriendsFromDatabase();
-            if (listViewAttributes.isEmpty()) {
-                //FirebaseFriendDataRetrieval firebaseFriendDataRetrieval = new FirebaseFriendDataRetrieval(getContext());
-                //firebaseFriendDataRetrieval.execute(view);
-                //Log.i("Firebase", "Reading from Firebase");
-            } else {
-                //setting the values in the UI
-                adapter = new FriendsListAdapter(listViewAttributes);
-                recyclerView = (RecyclerView) view.findViewById(R.id.friendsList);
-                layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(adapter);
-                Log.i("Firebase", "Reading from database");
-            }
+
+            listViewAttributes = new FriendHelperClass(getContext()).getFriendsFromDatabase();
+            adapter = new FriendsListAdapter(listViewAttributes);
+            recyclerView = (RecyclerView) view.findViewById(R.id.friendsList);
+            layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(adapter);
+            Log.i("Firebase", "Reading from database");
+
         } catch (NullPointerException npe) {
 
             Toast.makeText(getContext(), "Internal error occured", Toast.LENGTH_LONG).show();
@@ -95,28 +91,5 @@ public class FriendsFragment extends Fragment {
 
 
         return view;
-    }
-
-    public void getFriendsFromDatabase() {
-
-////
-        String[] column_name = new String[4];
-        column_name[0] = "firstname";
-        column_name[1] = "lastname";
-        column_name[2] = "moneyowes";
-        String where = "Friends.id = '" + FireBaseConnectivity.uid + "'";
-        ArrayList<ContentValues> values = new ArrayList<ContentValues>();
-//
-         InstaSplitDBUpdate instaSplitDBUpdate = new InstaSplitDBUpdate(getContext());
-//        instaSplitDBUpdate.dbDelete("Delete from Friends");
-//        instaSplitDBUpdate.dbDelete("Delete from Users");
-//
-        values = instaSplitDBUpdate.dbRead("Users", column_name, where, "INNER JOIN Friends ON Users.id = Friends.friend_id");
-        int size = values.size();
-        for (int i = 0; i < size; i++) {
-            listViewAttributes.add(new FriendsListAttributes(1, values.get(i).get("firstname").toString(), Long.parseLong(values.get(i).get("moneyowes").toString())));
-        }
-//
-//
     }
 }
