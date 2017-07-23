@@ -8,20 +8,29 @@ import android.os.Parcelable;
  */
 
 public class FriendsListAttributes implements Parcelable {
+    private String id;
     private int  displayPic;
     private String friendName;
     private long money;
-    public FriendsListAttributes(int displayPic , String friendName , long money)
+    public FriendsListAttributes(int displayPic , String friendName , long money,String id)
     {
         this.displayPic = displayPic;
         this.friendName = friendName;
         this.money = money;
+        this.id = id;
+    }    public FriendsListAttributes(int displayPic , String friendName , long money)
+    {
+        this.displayPic = displayPic;
+        this.friendName = friendName;
+        this.money = money;
+        this.id = id;
     }
 
     public FriendsListAttributes(Parcel in) {
         displayPic = in.readInt();
         money = in.readInt();
         friendName = in.readString();
+        id = in.readString();
     }
 
     public int getDisplayPic() {
@@ -34,6 +43,10 @@ public class FriendsListAttributes implements Parcelable {
     public String getFriendName() {
         return friendName;
     }
+    public  String getId(){
+        return  id;
+    }
+
 
 
 
@@ -47,6 +60,7 @@ public class FriendsListAttributes implements Parcelable {
         dest.writeInt(displayPic);
         dest.writeLong(money);
         dest.writeString(friendName);
+        dest.writeString(id);
 
 
     }

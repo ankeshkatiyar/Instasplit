@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList<FriendsListAttributes>> {
+public class FirebaseFriendDataRetrieval extends AsyncTask<Void, Void, ArrayList<FriendsListAttributes>> {
 
     private ArrayList<FriendsListAttributes> listViewAttributes = new ArrayList<>();
     private Map<String, Object> tempFriend;
@@ -59,7 +59,7 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
     }
 
     @Override
-    protected ArrayList<FriendsListAttributes> doInBackground(View... view) {
+    protected ArrayList<FriendsListAttributes> doInBackground(Void... view) {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -68,15 +68,16 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
         databaseReference = FirebaseDatabase.getInstance().getReference();
         try {
 
-            synchronized (this) {
-
+                Log.i("Firebase","FirebaseFriendDataRetrieval Outside");
                 myFriendsReference.addValueEventListener(new ValueEventListener() {
+
+                    
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         friendsData = (Map<String, Object>) dataSnapshot.getValue();
+                        Log.i("Firebase","FirebaseFriendDataRetrieval Inside + "+ FireBaseConnectivity.uid);
                         //Log.i("Firebase", friendsData.toString());
                         if (friendsData != null) {
-
                             addFriendsToUI(friendsData);
                         } else {
                             Toast.makeText(context, "No Friends", Toast.LENGTH_LONG).show();
@@ -91,17 +92,11 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
 
                     }
                 });
-            }
+
         } catch (Exception npe) {
             Toast.makeText(context, "No Friends Added", Toast.LENGTH_SHORT).show();
 
         }
-
-        while (listViewAttributes.size() == 0) {
-            Log.i("Indian", "Hello");
-        }
-        actualView = view[0];
-
 
         return listViewAttributes;
 
@@ -116,13 +111,6 @@ public class FirebaseFriendDataRetrieval extends AsyncTask<View, Void, ArrayList
     @Override
     protected void onPostExecute(ArrayList<FriendsListAttributes> friendsListAttributes) {
 
-
-        adapter = new FriendsListAdapter(listViewAttributes);
-        recyclerView = (RecyclerView) actualView.findViewById(R.id.friendsList);
-        layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
         progressDialog.dismiss();
 
 

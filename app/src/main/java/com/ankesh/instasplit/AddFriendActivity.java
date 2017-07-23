@@ -65,13 +65,6 @@ public class AddFriendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_friend);
 
         context = getApplicationContext();
-        //getting the database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        //getting the firebase auth to get the current user
-        firebaseAuth = FirebaseAuth.getInstance();
-
-
         addFriends = (Button) findViewById(R.id.add_firebase);
 
 
@@ -183,6 +176,12 @@ public class AddFriendActivity extends AppCompatActivity {
 
         friends = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         friends.setAdapter(adapter);
+    }
+    public void finish() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("new Friend", FriendHelperClass.singleFriendListAttributes);
+        setResult(RESULT_OK);
+        super.finish();
     }
 
     //adding the friend
